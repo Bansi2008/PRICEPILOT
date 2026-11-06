@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>PricePilot</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fa;
+        }
+
+        /* NAVBAR */
+
+        .navbar {
+            width: 100%;
+            background: #292d32;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+        }
+
+        .nav-container {
+            width: 92%;
+            max-width: 1400px;
+            min-height: 90px;
+            margin: auto;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        /* LOGO */
+
+        .logo {
+            color: white;
+            font-size: 30px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: #00bcd4;
+        }
+
+        /* NAVIGATION LINKS */
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 45px;
+        }
+
+        .home-link {
+            color: #00bcd4;
+            font-size: 22px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .home-link:hover {
+            color: white;
+        }
+
+        /* BRANDS DROPDOWN */
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropbtn {
+            background: #007bff;
+            color: white;
+            padding: 10px 50px;
+            font-size: 20px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .dropbtn:hover {
+            background: #0056b3;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 8px;
+            min-width: 190px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            overflow: hidden;
+            z-index: 2000;
+        }
+
+        .dropdown-content a {
+            display: block;
+            padding: 13px 18px;
+            color: #292d32;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .dropdown-content a:hover {
+            background: #f1f1f1;
+            color: #007bff;
+        }
+
+        .dropdown-content.show {
+            display: block;
+        }
+
+        /* MOBILE RESPONSIVE */
+
+        @media (max-width: 600px) {
+
+            .nav-container {
+                width: 94%;
+                min-height: 75px;
+            }
+
+            .logo {
+                font-size: 23px;
+            }
+
+            .nav-right {
+                gap: 15px;
+            }
+
+            .home-link {
+                font-size: 17px;
+            }
+
+            .dropbtn {
+                padding: 9px 15px;
+                font-size: 15px;
+            }
+
+            .dropdown-content {
+                min-width: 150px;
+            }
+        }
+
+
+          /* =========================
+           IMAGE SLIDESHOW SECTION
+        ========================= */
+
+        .slideshow-container {
+            width: 90%;
+            max-width: 1100px;
+            height: 480px;
+            margin: 40px auto;
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            background: #111;
+            touch-action: pan-y;
+        }
+
+        /* Slide item */
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out;
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Slide Gradient Overlay */
+        .slide-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.2) 50%, rgba(0, 0, 0, 0.4) 100%);
+        }
+
+        /* Caption Text */
+        .caption {
+            position: absolute;
+            bottom: 50px;
+            left: 40px;
+            right: 40px;
+            color: white;
+            z-index: 2;
+            transform: translateY(20px);
+            transition: transform 0.6s ease;
+        }
+
+        .slide.active .caption {
+            transform: translateY(0);
+        }
+
+        .caption h2 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            color: #ffffff;
+            font-weight: 700;
+        }
+
+        .caption p {
+            font-size: 18px;
+            color: #e0e0e0;
+            margin-bottom: 18px;
+            max-width: 600px;
+        }
+
+        .btn-action {
+            display: inline-block;
+            background: #00bcd4;
+            color: white;
+            padding: 10px 22px;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: bold;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        .btn-action:hover {
+            background: #0097a7;
+            transform: translateY(-2px);
+        }
+
+        /* Counter badge */
+        .slide-counter {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            z-index: 3;
+            backdrop-filter: blur(4px);
+        }
+
+        /* Nav Arrows */
+        .nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 48px;
+            height: 48px;
+            background: rgba(0, 0, 0, 0.4);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            z-index: 3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s ease, transform 0.2s ease;
+            backdrop-filter: blur(4px);
+        }
+
+        .nav-btn:hover {
+            background: #00bcd4;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .prev-btn {
+            left: 20px;
+        }
+
+        .next-btn {
+            right: 20px;
+        }
+
+        /* Dot Indicators */
+        .dots-container {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 3;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        .dot.active {
+            width: 32px;
+            border-radius: 10px;
+            background: #00bcd4;
+        }
+
+
+        /* =========================
+           PRODUCT CARDS SECTION
+        ========================= */
+
+        .products-section {
+            width: 90%;
+            max-width: 1200px;
+            margin: 60px auto 40px auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 28px;
+            font-weight: 700;
+            color: #292d32;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background: #00bcd4;
+            margin: 8px auto 0 auto;
+            border-radius: 2px;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background: #ffffff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.12);
+        }
+
+        .card-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: #00bcd4;
+            color: white;
+            font-size: 11px;
+            font-weight: bold;
+            padding: 4px 10px;
+            border-radius: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            z-index: 2;
+        }
+
+        .card-image {
+            width: 100%;
+            height: 220px;
+            background: #f0f3f6;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .card:hover .card-image img {
+            transform: scale(1.05);
+        }
+
+        .card-content {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #292d32;
+            margin-bottom: 8px;
+        }
+
+        .card-specs {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.5;
+            margin-bottom: 16px;
+            flex-grow: 1;
+        }
+
+        .card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: auto;
+            padding-top: 12px;
+            border-top: 1px solid #eee;
+        }
+
+        .card-price {
+            font-size: 20px;
+            font-weight: bold;
+            color: #292d32;
+        }
+
+        .card-btn {
+            background: #292d32;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: bold;
+            transition: background 0.3s ease;
+        }
+
+        .card-btn:hover {
+            background: #00bcd4;
+        }
+
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        .footer {
+            background: #1e2226;
+            color: #aaa;
+            padding: 25px 5%;
+            text-align: center;
+            font-size: 14px;
+            margin-top: 50px;
+        }
+
+
+        /* =========================
+           RESPONSIVE DESIGN
+        ========================= */
+
+        @media (max-width: 768px) {
+            .slideshow-container {
+                height: 380px;
+            }
+
+            .caption h2 {
+                font-size: 24px;
+            }
+
+            .caption p {
+                font-size: 15px;
+            }
+
+            .caption {
+                bottom: 45px;
+                left: 25px;
+                right: 25px;
+            }
+
+            .nav-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 500px) {
+            .slideshow-container {
+                width: 100%;
+                border-radius: 0;
+                height: 320px;
+            }
+
+            .caption h2 {
+                font-size: 20px;
+                margin-bottom: 5px;
+            }
+
+            .caption p {
+                font-size: 13px;
+                margin-bottom: 12px;
+            }
+
+            .btn-action {
+                padding: 8px 16px;
+                font-size: 13px;
+            }
+
+            .prev-btn {
+                left: 10px;
+            }
+
+            .next-btn {
+                right: 10px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+
+</html>
+
+    
+
+<body>
+
+    <!-- NAVBAR -->
+
+    <header class="navbar">
+
+        <div class="nav-container">
+
+            <!-- LOGO -->
+
+            <a href="index.html" class="logo">
+                Price<span>Pilot</span>
+            </a>
+
+            <!-- RIGHT NAVIGATION -->
+
+            <div class="nav-right">
+
+                <!-- HOME -->
+
+                <a href="index.html" class="home-link">
+                    Home
+                </a>
+
+                <!-- BRANDS DROPDOWN -->
+
+                <div class="dropdown">
+
+                    <button class="dropbtn"
+                            id="brandsBtn"
+                            aria-expanded="false"
+                            aria-controls="brandsMenu">
+                        Brands ▼
+                    </button>
+
+                    <div class="dropdown-content" id="brandsMenu">
+
+                        <a href="vivo.html">Vivo</a>
+
+                        <a href="oppo.html">Oppo</a>
+
+                        <a href="samsung.html">Samsung</a>
+
+                        <a href="iphone.html">iPhone</a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+     <!-- IMAGE SLIDESHOW -->
+    <div class="slideshow-container" id="slideshowContainer">
+
+        <!-- Slide Counter -->
+        <div class="slide-counter" id="slideCounter">1 / 5</div>
+
+        <!-- SLIDE 1 -->
+        <div class="slide active">
+            <img src="https://www.gizmochina.com/wp-content/uploads/2026/07/Samsung-Galaxy-S27-Ultra-Ai-render-1024x577-1.webp" alt="Samsung S27 Ultra">
+            <div class="slide-overlay"></div>
+            <div class="caption">
+                <h2>Samsung S27 Ultra</h2>
+                <p>5800mAh Ultra Battery & 128GB Storage built for full-day power.</p>
+            </div>
+        </div>
+
+        <!-- SLIDE 2 -->
+        <div class="slide">
+            <img src="https://www.mymobileindia.com/wp-content/uploads/2026/04/Motorola-Razr-70-Ultra.jpg" alt="Motorola Razr 70 Ultra">
+            <div class="slide-overlay"></div>
+            <div class="caption">
+                <h2>Motorola Razr 70 Ultra</h2>
+                <p>Advanced portrait camera system paired with 16GB RAM performance.</p>
+            </div>
+        </div>
+
+        <!-- SLIDE 3 -->
+        <div class="slide">
+            <img src="https://xiaomi-miui.gr/wp-content/uploads/2026/07/Xiaomi-18-Pro-Max-Specs-leaked.webp" alt="Xiaomi 18 pro">
+            <div class="slide-overlay"></div>
+            <div class="caption">
+                <h2>Xiaomi 18 pro</h2>
+                <p>Slim profile, 7000mAh 100w fast charging,12GB and 256GB stunning AMOLED display.</p>
+            </div>
+        </div>
+
+        <!-- SLIDE 4 -->
+        <div class="slide">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRuIlZYtEG9AKqzVqPyDaBrS65DHYFHFNh1CN64gUtftCNS1YmJ9wWKV7s&s=10" alt="Vivox500">
+            <div class="slide-overlay"></div>
+            <div class="caption">
+                <h2>vivo x500 pro max</h2>
+                <p>Flagship performance with 12GB RAM and 256GB massive storage.</p>
+            </div>
+        </div>
+
+        <!-- SLIDE 5 -->
+        <div class="slide">
+            <img src="https://r.iservices.nl/common/posts/1889-samsung-galaxy-z-fold-8-novidades-do-galaxy-unpacked-2026-1784892753.webp" alt="Samsung Galaxy Z Fold 8">
+            <div class="slide-overlay"></div>
+            <div class="caption">
+                <h2>Samsung Galaxy Z Fold 8</h2>
+                <p>Ultimate flagship experience with state-of-the-art quad camera system.</p>
+            </div>
+        </div>
+
+
+        <!-- NAV BUTTONS -->
+        <button class="nav-btn prev-btn" id="prevBtn" aria-label="Previous Slide">❮</button>
+        <button class="nav-btn next-btn" id="nextBtn" aria-label="Next Slide">❯</button>
+
+        <!-- DOTS -->
+        <div class="dots-container" id="dotsContainer"></div>
+
+    </div>
+
+
+    <!-- PRODUCT CARDS SECTION -->
+    <section class="products-section" id="details">
+        <h2 class="section-title">Featured Models</h2>
+
+        <div class="card-grid">
+
+            <!-- Card 1 -->
+            <div class="card">
+                <span class="card-badge">Best Battery</span>
+                <div class="card-image">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSI14Pj_XGF4dZNZn-Irof-NRATPDjrld9jk_qOdSrh03tnpCbKqDzzcbc&s=10" alt="OnePlus N6x">
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">OnePlus N6x</h3>
+                    <p class="card-specs">7000mAh Battery • 4GB + 128GB Storage • 6.7" Display</p>
+                    <div class="card-footer">
+                        <span class="card-price">$219 USD</span>
+                        <a href="Details.html" class="card-btn">Details</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="card">
+                <span class="card-badge">Camera King</span>
+                <div class="card-image">
+                    <img src="https://media-ik.croma.com/Croma%20Assets/Communication/Mobiles/Images/319993_0_AagQNP2gkB.png?updatedAt=1767602329046" alt="Oppo Reno 15 5G">
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">Oppo Reno 15 5G</h3>
+                    <p class="card-specs">8GB RAM + 256GB • Portrait AI Camera • 65W Fast Charge</p>
+                    <div class="card-footer">
+                        <span class="card-price">$479 USD</span>
+                        <a href="Details.html" class="card-btn">Details</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="card">
+                <span class="card-badge">Ultra Slim</span>
+                <div class="card-image">
+                    <img src="https://m.media-amazon.com/images/I/71Em22+yGgL._AC_UF1000,1000_QL80_.jpg" alt="Vivo X300 FE">
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">Vivo X300 FE</h3>
+                    <p class="card-specs">6500mAh Battery • AMOLED Screen • 256GB Storage</p>
+                    <div class="card-footer">
+                        <span class="card-price">$833 USD</span>
+                        <a href="Details.html" class="card-btn">Details</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="card">
+                <span class="card-badge">High Performance</span>
+                <div class="card-image">
+                    <img src="https://www.designinfo.in/wp-content/uploads/2022/09/Xiaomi-17-Pro-Max-Green-485x485.webp" alt="Xiaomi 17 Pro Max">
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">Xiaomi 17 Pro Max</h3>
+                    <p class="card-specs">12GB RAM • 512GB Storage • Snapdragon Chipset</p>
+                    <div class="card-footer">
+                        <span class="card-price">$1,044 USD</span>
+                        <a href="Details.html" class="card-btn">Details</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 5 -->
+            <div class="card">
+                <span class="card-badge">Ultimate Flagship</span>
+                <div class="card-image">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSV4NfcaCn-7pYsN6ffwWnBTOaUaqYGYTFDhlp9MP1uawSwDRMrh6oFI0Q&s=10" alt="Samsung S26 Ultra">
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">Samsung S26 Ultra</h3>
+                    <p class="card-specs">Quad Camera System • Dynamic AMOLED 2X • S-Pen</p>
+                    <div class="card-footer">
+                        <span class="card-price">$1,458 USD</span>
+                        <a href="Details.html" class="card-btn">Details</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 6 -->
+            <div class="card">
+                <span class="card-badge">Ultimate Flagship</span>
+                <div class="card-image">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRe9Qovsp0TIIP1W7SAcax5cvHy71WpPyPS-4hAk3zDpA&s=10" alt="Samsung S26 Ultra">
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">Iphone Duo</h3>
+                    <p class="card-specs">Quad Camera System • 12 GB + 256 GB </p>
+                    <div class="card-footer">
+                        <span class="card-price">$1,999 USD</span>
+                        <a href="Details.html" class="card-btn">Details</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <pre>
+<p>Smarter tech. Better choices. Build for curious minds.</p>
+<pre>
+Contact us</pre> <p>&copy; 2026 Price Pilot. All Rights Reserved.</p>
+        </pre>
+    </footer>
+
+
+   
+
+    <!-- JAVASCRIPT -->
+
+    <script>
+
+        const brandsBtn = document.getElementById("brandsBtn");
+        const brandsMenu = document.getElementById("brandsMenu");
+
+        // OPEN AND CLOSE DROPDOWN
+
+        brandsBtn.addEventListener("click", function(event) {
+
+            event.stopPropagation();
+
+            brandsMenu.classList.toggle("show");
+
+            const isOpen = brandsMenu.classList.contains("show");
+
+            brandsBtn.setAttribute("aria-expanded", isOpen);
+
+        });
+
+        // CLOSE WHEN CLICKING OUTSIDE
+
+        document.addEventListener("click", function(event) {
+
+            if (!event.target.closest(".dropdown")) {
+
+                brandsMenu.classList.remove("show");
+
+                brandsBtn.setAttribute("aria-expanded", "false");
+
+            }
+
+        });
+
+        // CLOSE WITH ESCAPE KEY
+
+        document.addEventListener("keydown", function(event) {
+
+            if (event.key === "Escape") {
+
+                brandsMenu.classList.remove("show");
+
+                brandsBtn.setAttribute("aria-expanded", "false");
+
+                brandsBtn.focus();
+
+            }
+
+        });
+
+
+         const slides = document.querySelectorAll(".slide");
+        const prevBtn = document.getElementById("prevBtn");
+        const nextBtn = document.getElementById("nextBtn");
+        const dotsContainer = document.getElementById("dotsContainer");
+        const slideCounter = document.getElementById("slideCounter");
+        const container = document.getElementById("slideshowContainer");
+
+        let currentIndex = 0;
+        let slideTimer = null;
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        // Initialize Pagination Dots
+        function createDots() {
+            dotsContainer.innerHTML = "";
+            slides.forEach((_, index) => {
+                const dot = document.createElement("button");
+                dot.className = "dot";
+                dot.setAttribute("aria-label", `Go to slide ${index + 1}`);
+                dot.addEventListener("click", () => {
+                    goToSlide(index);
+                    resetAutoPlay();
+                });
+                dotsContainer.appendChild(dot);
+            });
+        }
+
+        // Show specific slide index
+        function goToSlide(index) {
+            slides[currentIndex].classList.remove("active");
+            
+            // Loop boundaries
+            if (index >= slides.length) {
+                currentIndex = 0;
+            } else if (index < 0) {
+                currentIndex = slides.length - 1;
+            } else {
+                currentIndex = index;
+            }
+
+            slides[currentIndex].classList.add("active");
+            updateUI();
+        }
+
+        // Sync Counter & Dots
+        function updateUI() {
+            const dots = dotsContainer.querySelectorAll(".dot");
+            dots.forEach((dot, idx) => {
+                dot.classList.toggle("active", idx === currentIndex);
+            });
+
+            slideCounter.textContent = `${currentIndex + 1} / ${slides.length}`;
+        }
+
+        // Slide Actions
+        function nextSlide() {
+            goToSlide(currentIndex + 1);
+        }
+
+        function prevSlide() {
+            goToSlide(currentIndex - 1);
+        }
+
+        // Auto Play
+        function startAutoPlay() {
+            stopAutoPlay();
+            slideTimer = setInterval(nextSlide, 4000);
+        }
+
+        function stopAutoPlay() {
+            if (slideTimer) {
+                clearInterval(slideTimer);
+                slideTimer = null;
+            }
+        }
+
+        function resetAutoPlay() {
+            stopAutoPlay();
+            startAutoPlay();
+        }
+
+        // Controls Event Listeners
+        nextBtn.addEventListener("click", () => {
+            nextSlide();
+            resetAutoPlay();
+        });
+
+        prevBtn.addEventListener("click", () => {
+            prevSlide();
+            resetAutoPlay();
+        });
+
+        // Touch Swipe Gestures
+        container.addEventListener("touchstart", (e) => {
+            touchStartX = e.touches[0].clientX;
+            stopAutoPlay();
+        }, { passive: true });
+
+        container.addEventListener("touchend", (e) => {
+            touchEndX = e.changedTouches[0].clientX;
+            handleSwipe();
+            startAutoPlay();
+        }, { passive: true });
+
+        function handleSwipe() {
+            const diff = touchStartX - touchEndX;
+            if (diff > 40) nextSlide();
+            if (diff < -40) prevSlide();
+        }
+
+        // Keyboard Controls
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "ArrowRight") {
+                nextSlide();
+                resetAutoPlay();
+            } else if (e.key === "ArrowLeft") {
+                prevSlide();
+                resetAutoPlay();
+            }
+        });
+
+        // Pause slideshow on hover
+        container.addEventListener("mouseenter", stopAutoPlay);
+        container.addEventListener("mouseleave", startAutoPlay);
+
+        // Init
+        createDots();
+        goToSlide(0);
+        startAutoPlay();
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="Bootstrap/bootstrap-5.3.8-dist/css/bootstrap.min.css"/>
+    <script src="Bootstrap/bootstrap-5.3.8-dist/js/bootstrap.min.js"></script>
+    <title>Document</title>
+    <style>
+      * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fa;
+        }
+
+        /* NAVBAR */
+
+        .navbar {
+            width: 100%;
+            background: #292d32;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+        }
+
+        .nav-container {
+            width: 92%;
+            max-width: 1400px;
+            min-height: 90px;
+            margin: auto;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        /* LOGO */
+
+        .logo {
+            color: white;
+            font-size: 30px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: #00bcd4;
+        }
+
+        /* NAVIGATION LINKS */
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 45px;
+        }
+
+        .home-link {
+            color: #00bcd4;
+            font-size: 22px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .home-link:hover {
+            color: white;
+        }
+
+        /* BRANDS DROPDOWN */
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropbtn {
+            background: #007bff;
+            color: white;
+            padding: 12px 45px;
+            font-size: 20px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .dropbtn:hover {
+            background: #0056b3;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 8px;
+            min-width: 190px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            overflow: hidden;
+            z-index: 2000;
+        }
+
+        .dropdown-content a {
+            display: block;
+            padding: 13px 18px;
+            color: #292d32;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .dropdown-content a:hover {
+            background: #f1f1f1;
+            color: #007bff;
+        }
+
+        .dropdown-content.show {
+            display: block;
+        }
+
+        /* MOBILE RESPONSIVE */
+
+        @media (max-width: 600px) {
+
+            .nav-container {
+                width: 94%;
+                min-height: 75px;
+            }
+
+            .logo {
+                font-size: 23px;
+            }
+
+            .nav-right {
+                gap: 15px;
+            }
+
+            .home-link {
+                font-size: 17px;
+            }
+
+            .dropbtn {
+                padding: 9px 15px;
+                font-size: 15px;
+            }
+
+            .dropdown-content {
+                min-width: 150px;
+            }
+        }
+                /* =========================
+           PRODUCT CARDS SECTION
+        ========================= */
+
+        .products-section {
+            width: 100%;
+            max-width: 1200px;
+            margin: 50px auto 50px auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 28px;
+            font-weight: 700;
+            color: #292d32;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background: #00bcd4;
+            margin: 8px auto 0 auto;
+            border-radius: 2px;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background: #ffffff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.12);
+        }
+
+        .card-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: #00bcd4;
+            color: white;
+            font-size: 11px;
+            font-weight: bold;
+            padding: 4px 10px;
+            border-radius: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            z-index: 2;
+        }
+
+        .card-image {
+            width: 100%;
+            height: 220px;
+            background: #f0f3f6;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .card:hover .card-image img {
+            transform: scale(1.05);
+        }
+
+        .card-content {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #292d32;
+            margin-bottom: 8px;
+        }
+
+        .card-specs {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.5;
+            margin-bottom: 16px;
+            flex-grow: 1;
+        }
+
+        .card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: auto;
+            padding-top: 12px;
+            border-top: 1px solid #eee;
+        }
+
+        .card-price {
+            font-size: 20px;
+            font-weight: bold;
+            color: #292d32;
+        }
+
+        .card-btn {
+            background: #292d32;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: bold;
+            transition: background 0.3s ease;
+        }
+
+        .card-btn:hover {
+            background: #00bcd4;
+        }
+
+
+    </style>
+</head>
+<body>
+
+
+      <!-- NAVBAR -->
+
+    <header class="navbar">
+
+        <div class="nav-container">
+
+            <!-- LOGO -->
+
+            <a href="index.html" class="logo">
+                Price<span>Pilot</span>
+            </a>
+
+            <!-- RIGHT NAVIGATION -->
+
+            <div class="nav-right">
+
+                <!-- HOME -->
+
+                <a href="index.html" class="home-link">
+                    Home
+                </a>
+
+                <!-- BRANDS -->
+                 <a href="index.html" class="home-link">
+                    Brands
+                </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </header>
+
+   
+        <!-- PRODUCT CARDS SECTION -->
+    <section class="products-section" id="details">
+        <h2 class="section-title">Featured Models</h2>
+
+        <div class="card-grid">
+
+            <!-- Card 1 -->
+            <div class="card">
+                <span class="card-badge">Best Battery</span>
+                <div class="card-image">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSI14Pj_XGF4dZNZn-Irof-NRATPDjrld9jk_qOdSrh03tnpCbKqDzzcbc&s=10" alt="OnePlus N6x">
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">OnePlus N6x</h3>
+                     <div class="table responsive">
+                        <table class="table table-striped table-hover  table-bodered">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th scope="col">No.</th>
+                                    <th scope="col">Features</th>
+                                    <th scope="col">Details</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                  <tr>
+                                    <th scope="row">1.</th>
+                                    <td>Display</td>
+                                    <td>6.8 inch IPS LCD, HD+(1570*720) </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">2.</th>
+                                    <td>Processor</td>
+                                    <td>Media tek D 6360 Apex, Octa-core</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">3.</th>
+                                    <td>RAM/Storage</td>
+                                    <td>4GB/64GB, 6GB/128GB, microSD 2TB</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">4.</th>
+                                    <td>Battery</td>
+                                    <td>7,000 mAh</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">5.</th>
+                                    <td>Charging</td>
+                                    <td>15W wired charging</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">6.</th>
+                                    <td>Software</td>
+                                    <td>Android 16:-OxygenOS 16</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">7.</th>
+                                    <td>Bulid</td>
+                                    <td>Glass front, approx. ~ 214g</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">8.</th>
+                                    <td>Extras</td>
+                                    <td>Dual nano-SIM, USB-C, IP64</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">9.</th>
+                                    <td>Colours</td>
+                                    <td>Ice Blue, Burdundy Red</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="card-footer">
+                        <span class="card-price">$219 USD</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="card">
+                <span class="card-badge">Camera King</span>
+                <div class="card-image">
+                    <img src="https://media-ik.croma.com/Croma%20Assets/Communication/Mobiles/Images/319993_0_AagQNP2gkB.png?updatedAt=1767602329046" alt="Oppo Reno 15 5G">
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">Oppo Reno 15 5G</h3>
+                     <div class="table responsive">
+                        <table class="table table-striped table-hover  table-bodered">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th scope="col">No.</th>
+                                    <th scope="col">Features</th>
+                                    <th scope="col">Details</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">1.</th>
+                                    <td>Display</td>
+                                    <td>6.59 inch AMOLED, 1.5k, 120Hz</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">2.</th>
+                                    <td>Processor</td>
+                                    <td>Snapdragon 7 Gen 4, Octa-core</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">3.</th>
+                                    <td>RAM/Storage</td>
+                                    <td>up to 12 GB RAM, 512 GB storage</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">4.</th>
+                                    <td>Battery</td>
+                                    <td>6,500 mAh</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">5.</th>
+                                    <td>Charging</td>
+                                    <td>80W wired fast charging</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">6.</th>
+                                    <td>Software</td>
+                                    <td>Android 16,ColorOS 16</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">7.</th>
+                                    <td>Bulid</td>
+                                    <td>Glass back, aluimi frame, apx. 197 g</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">8.</th>
+                                    <td>Extras</td>
+                                    <td>5G, USB-C, IP69 rating, in-display fgp</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">9.</th>
+                                    <td>Colours</td>
+                                    <td>Aurora White, Aurora/Twilight Blue</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="card-footer">
+                        <span class="card-price">$479 USD</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="card">
+                <span class="card-badge">Ultra Slim</span>
+                <div class="card-image">
+                    <img src="https://m.media-amazon.com/images/I/71Em22+yGgL._AC_UF1000,1000_QL80_.jpg" alt="Vivo X300 FE">
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">Vivo X300 FE</h3>
+                     <div class="table responsive">
+                        <table class="table table-striped table-hover  table-bodered">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th scope="col">No.</th>
+                                    <th scope="col">Features</th>
+                                    <th scope="col">Details</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                        <tr>
+                                    <th scope="row">1.</th>
+                                    <td>Display</td>
+                                    <td>6.31 inch AMOLED, 1.5k(2640*1216)</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">2.</th>
+                                    <td>Processor</td>
+                                    <td>Snapdragon 8 Gen 5, Octa-core</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">3.</th>
+                                    <td>RAM/Storage</td>
+                                    <td>8GB / 12GB, 256GB / 512GB Storage</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">4.</th>
+                                    <td>Battery</td>
+                                    <td>6,500 mAh</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">5.</th>
+                                    <td>Charging</td>
+                                    <td>90W wired, 40W wireless</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">6.</th>
+                                    <td>Software</td>
+                                    <td>Android 16:-OriginOS 6</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">7.</th>
+                                    <td>Bulid</td>
+                                    <td>Glass back, metal frame, 191 g</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">8.</th>
+                                    <td>Extras</td>
+                                    <td>5G, USB-C, IP68/IP69, ultrasonic fgp</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">9.</th>
+                                    <td>Colours</td>
+                                    <td>Urban Olive, Lilac Purple, Noir Black</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="card-footer">
+                        <span class="card-price">$219 USD</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="card">
+                <span class="card-badge">High Performance</span>
+                <div class="card-image">
+                    <img src="https://www.designinfo.in/wp-content/uploads/2022/09/Xiaomi-17-Pro-Max-Green-485x485.webp" alt="Xiaomi 17 Pro Max">
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">Xiaomi 17 Pro Max</h3>
+                     <div class="table responsive">
+                        <table class="table table-striped table-hover  table-bodered">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th scope="col">No.</th>
+                                    <th scope="col">Features</th>
+                                    <th scope="col">Details</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                        <tr>
+                                    <th scope="row">1.</th>
+                                    <td>Display</td>
+                                    <td>6.9 inch LTPO AMOLED, 2k</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">2.</th>
+                                    <td>Processor</td>
+                                    <td>Snapdragon 8 Gen 5</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">3.</th>
+                                    <td>RAM/Storage</td>
+                                    <td>12GB/512GB, 16GB/1TB</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">4.</th>
+                                    <td>Battery</td>
+                                    <td>7,500 mAh</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">5.</th>
+                                    <td>Charging</td>
+                                    <td>100W wired</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">6.</th>
+                                    <td>Software</td>
+                                    <td>Android 16:-HyperOS 3</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">7.</th>
+                                    <td>Bulid</td>
+                                    <td>Glass front, aluiminium frame, 197g</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">8.</th>
+                                    <td>Extras</td>
+                                    <td>5G, USB-C, IP68, RDisplay</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">9.</th>
+                                    <td>Colours</td>
+                                    <td>White, Black, Purple, Green</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="card-footer">
+                        <span class="card-price">$1,044 USD</span>                    </div>
+                </div>
+            </div>
+
+            <!-- Card 5 -->
+            <div class="card">
+                <span class="card-badge">Ultimate Flagship</span>
+                <div class="card-image">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSV4NfcaCn-7pYsN6ffwWnBTOaUaqYGYTFDhlp9MP1uawSwDRMrh6oFI0Q&s=10" alt="Samsung S26 Ultra">
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">Samsung S26 Ultra</h3>
+                     <div class="table responsive">
+                        <table class="table table-striped table-hover  table-bodered">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th scope="col">No.</th>
+                                    <th scope="col">Features</th>
+                                    <th scope="col">Details</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                        <tr>
+                                    <th scope="row">1.</th>
+                                    <td>Display</td>
+                                    <td>6.9 inch Dynamic AMOLED 2X</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">2.</th>
+                                    <td>Processor</td>
+                                    <td>Snapdragon 8 Gen 5 FOR Galaxy</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">3.</th>
+                                    <td>RAM/Storage</td>
+                                    <td>12GB/(256/512GB), 16GB/1TB</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">4.</th>
+                                    <td>Battery</td>
+                                    <td>5,000 mAh</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">5.</th>
+                                    <td>Charging</td>
+                                    <td>wired fast charging</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">6.</th>
+                                    <td>Software</td>
+                                    <td>Android 16:-One UI 8.5</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">7.</th>
+                                    <td>Bulid</td>
+                                    <td>163.6*78.1*7.9 mm, approximate 214 g</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">8.</th>
+                                    <td>Extras</td>
+                                    <td>5G, S Pen, IP68, Privacy display</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">9.</th>
+                                    <td>Colours</td>
+                                    <td>Cobalt Violet, Sky Blue, Black, White</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="card-footer">
+                        <span class="card-price">$1,458 USD</span>                    </div>
+                </div>
+            </div>
+
+            <!-- Card 6 -->
+            <div class="card">
+                <span class="card-badge">Ultimate Flagship</span>
+                <div class="card-image">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRe9Qovsp0TIIP1W7SAcax5cvHy71WpPyPS-4hAk3zDpA&s=10" alt="Samsung S26 Ultra">
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">Iphone Duo</h3>
+                     <div class="table responsive">
+                        <table class="table table-striped table-hover  table-bodered">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th scope="col">No.</th>
+                                    <th scope="col">Features</th>
+                                    <th scope="col">Details</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                        <tr>
+                                    <th scope="row">1.</th>
+                                    <td>Display</td>
+                                    <td>7.6 inch foldable OLED</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">2.</th>
+                                    <td>Processor</td>
+                                    <td>Apple A20 Pro</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">3.</th>
+                                    <td>RAM/Storage</td>
+                                    <td>256GB/1TB, 512GB/2TB</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">4.</th>
+                                    <td>Battery</td>
+                                    <td>Dual Battery</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">5.</th>
+                                    <td>Charging</td>
+                                    <td>fast, MagSafe</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">6.</th>
+                                    <td>Software</td>
+                                    <td>iOperating System 27</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">7.</th>
+                                    <td>Bulid</td>
+                                    <td>Titanium frame, foldable</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">8.</th>
+                                    <td>Extras</td>
+                                    <td>5G, eSIM, IP68, Touch ID</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">9.</th>
+                                    <td>Colours</td>
+                                    <td>Night Sky, Star White</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="card-footer">
+                        <span class="card-price">$1,999 USD</span>                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+</body>
+</html>
